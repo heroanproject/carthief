@@ -14,7 +14,7 @@
     <name>carthief</name>
     <description>carthief</description>
     <properties>
-        <java.version>19</java.version>
+        <maven.compiler.release>19</maven.compiler.release>
     </properties>
     <dependencies>
         <dependency>
