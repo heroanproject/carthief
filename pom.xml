@@ -16,7 +16,7 @@
     <properties>
         <maven.compiler.release>19</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sonar.organization>carthief</sonar.organization>
+        <sonar.organization>heroanproject</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
