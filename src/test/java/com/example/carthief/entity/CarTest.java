@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CarTest {
 
     @Test
-    protected void CarTestConstructorSetsInstanceAndRetrieveGetterMethods() {
+    void CarTestConstructorSetsInstanceAndRetrieveGetterMethods() {
         UUID id = UUID.randomUUID();
         BigDecimal price = BigDecimal.valueOf(350000);
         String name = "Volvo";
@@ -23,7 +23,7 @@ class CarTest {
         assertEquals(name, car.getName());
     }
     @Test
-    protected void CarSetterMethodsShouldUpdateInstanceVariables() {
+    void CarSetterMethodsShouldUpdateInstanceVariables() {
         UUID id = UUID.randomUUID();
         BigDecimal price = BigDecimal.valueOf(500000);
         String name = "Tesla Model X";
@@ -39,7 +39,7 @@ class CarTest {
     }
 
     @Test
-    protected void CarEqualsAndHashCodeShouldReturnTrueForSameAttributes() {
+    void CarEqualsAndHashCodeShouldReturnTrueForSameAttributes() {
         UUID id = UUID.randomUUID();
         BigDecimal price = BigDecimal.valueOf(300);
         String name = "Mulle Mecks bil";
