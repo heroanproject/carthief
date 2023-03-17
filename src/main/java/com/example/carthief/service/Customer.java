@@ -1,4 +1,4 @@
-package com.example.carthief.entity;
+package com.example.carthief.service;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,14 +8,18 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID id;
+    private CustomerStatus status;
     private String name;
     private String phoneNumber;
+
+
 
 
     @JsonCreator
     public Customer(@JsonProperty("id") final UUID id, @JsonProperty("name")
                     String name, @JsonProperty ("phoneNumber") String phoneNumber) {
         this.id = id != null ? id : UUID.randomUUID();
+        this.status = CustomerStatus.CREATED;
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
@@ -28,11 +32,26 @@ public class Customer {
     public String getPhoneNumber(){
         return phoneNumber;
     }
+
+    public CustomerStatus getStatus () {
+        return status;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    public void complete(){
+        validateState();
+        this.status = CustomerStatus.COMPLETED;
+    }
+
+    private void validateState () {
+        if (CustomerStatus.COMPLETED.equals(status)) {
+            throw new DomainException("The customer is in completed state.");
+        }
     }
 
     @Override
@@ -45,6 +64,6 @@ public class Customer {
 
     @Override
     public int hashCode () {
-        return super.hashCode();
+        return Objects.hash(id,name,phoneNumber);
     }
 }
