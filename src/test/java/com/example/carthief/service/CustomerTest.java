@@ -24,7 +24,7 @@ class CustomerTest {
 
         assertNotNull(customer);
         assertEquals(id, customer.getId());
-        assertEquals(customerStatus, CustomerStatus.CREATED);
+        assertEquals(CustomerStatus.CREATED, customerStatus);
         assertEquals(name, customer.getName());
         assertEquals(phoneNumber, customer.getPhoneNumber());
     }
