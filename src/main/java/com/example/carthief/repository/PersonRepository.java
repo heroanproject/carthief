@@ -1,4 +1,7 @@
 package com.example.carthief.repository;
 
-public interface PersonRepository {
+import com.example.carthief.entity.Person;
+import org.springframework.data.repository.ListCrudRepository;
+
+public interface PersonRepository extends ListCrudRepository<Person,Long> {
 }
