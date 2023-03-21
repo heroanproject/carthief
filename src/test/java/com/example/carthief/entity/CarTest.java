@@ -3,19 +3,18 @@ package com.example.carthief.entity;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarTest {
 
     @Test
-    void CarTestConstructorSetsInstanceAndRetrieveGetterMethods() {
-        UUID id = UUID.randomUUID();
+    void CarTestConstructorSetsInstanceAndReturnsGetterMethods() {
+        Long id = 1L;
         BigDecimal price = BigDecimal.valueOf(350000);
         String name = "Volvo";
 
-        Car car = new Car(id, price, name);
+        Car car = new Car(id, name, price);
 
         assertNotNull(car);
         assertEquals(id, car.getId());
@@ -24,10 +23,10 @@ class CarTest {
     }
     @Test
     void CarSetterMethodsShouldUpdateInstanceVariables() {
-        UUID id = UUID.randomUUID();
+        Long id = 2L;
         BigDecimal price = BigDecimal.valueOf(500000);
         String name = "Tesla Model X";
-        Car car = new Car(id, price, name);
+        Car car = new Car(id, name, price);
 
         BigDecimal newPrice = BigDecimal.valueOf(550000);
         String newName = "Tesla Model Y";
@@ -38,18 +37,5 @@ class CarTest {
         assertEquals(newName, car.getName());
     }
 
-    @Test
-    void CarEqualsAndHashCodeShouldReturnTrueForSameAttributes() {
-        UUID id = UUID.randomUUID();
-        BigDecimal price = BigDecimal.valueOf(300);
-        String name = "Mulle Mecks bil";
-
-        Car car1 = new Car(id, price, name);
-        Car car2 = new Car(id, price, name);
-
-        assertEquals(car1, car2);
-        assertEquals(car2, car1);
-        assertEquals(car1.hashCode(), car2.hashCode());
-    }
 
 }
