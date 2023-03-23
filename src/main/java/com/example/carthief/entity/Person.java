@@ -24,17 +24,16 @@ public class Person {
     private Car car;
 
 
-
     @Override
     public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(name, person.name);
+        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(car, person.car);
     }
 
     @Override
     public int hashCode () {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, car);
     }
 }

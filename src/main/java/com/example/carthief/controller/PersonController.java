@@ -2,8 +2,10 @@ package com.example.carthief.controller;
 
 import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Person;
+import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.PersonRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,10 +16,13 @@ import java.util.List;
 public class PersonController {
 
     private final PersonRepository personRepo;
+    private final CarRepository carRepo;
 
-    public PersonController (PersonRepository personRepository) {
+
+    public PersonController (PersonRepository personRepository, CarRepository carRepository) {
 
         personRepo = personRepository;
+        carRepo = carRepository;
     }
 
     @GetMapping("/{id}")
@@ -38,6 +43,22 @@ public class PersonController {
             throw new IllegalStateException();
         personRepo.save(person);
     }
+
+    @PostMapping("/{personId}/cars")
+    @Transactional
+    public void addPersonToCar(@PathVariable Long personId, @RequestBody Car car) {
+        var savedCar = carRepo.save(car);
+        var person = personRepo.findById(personId).orElseThrow();
+
+    }
+
+//    @PostMapping("/{dealerId}/cars")
+//    @Transactional
+//    public void addCarToDealer(@PathVariable Long dealerId, @RequestBody Car car){
+//        var savedCar = carRepo.save(car);
+//        var dealer = dealerRepo.findById(dealerId).orElseThrow();
+//        dealer.getCars().add(savedCar);
+//    }
     @PutMapping("/{id}")
     public Person updateCar(@PathVariable Long id, @RequestBody Person person){
         person.setId(id);
