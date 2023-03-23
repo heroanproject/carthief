@@ -11,7 +11,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-//@NamedEntityGraph(name = "Dealer.people", attributeNodes = @NamedAttributeNode("customerList"))
 @NamedEntityGraph(name = "Dealer.cars", attributeNodes = @NamedAttributeNode("cars"))
 public class Dealer {
     @Id
@@ -22,7 +21,4 @@ public class Dealer {
 
     @ManyToMany
     private Set<Car> cars = new HashSet<>();
-
-//    @ManyToMany
-//    private Set<Person> customerList = new HashSet<>();
 }

@@ -13,6 +13,7 @@ public interface DealerRepository extends ListCrudRepository<Dealer,Long> {
     @EntityGraph(value = "Dealer.cars")
     List<Dealer> findAll();
 
+    @EntityGraph(value = "Dealer.cars")
     Optional<Dealer> findById(Long id);
 
     List<DealerName> findNamesBy();

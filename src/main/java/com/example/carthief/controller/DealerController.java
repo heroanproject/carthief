@@ -28,9 +28,9 @@ public class DealerController {
         return dealerRepo.findAll();
     }
 
-    @GetMapping("/{id}")
-    Dealer getDealer(@PathVariable Long id){
-        return dealerRepo.findById(id).orElseThrow();
+    @GetMapping("/{dealerId}")
+    Dealer getDealer(@PathVariable Long dealerId){
+        return dealerRepo.findById(dealerId).orElseThrow();
     }
 
     @GetMapping("/names")
