@@ -52,13 +52,6 @@ public class PersonController {
         person.setCar(savedCar);
     }
 
-//    @PostMapping("/{dealerId}/cars")
-//    @Transactional
-//    public void addCarToDealer(@PathVariable Long dealerId, @RequestBody Car car){
-//        var savedCar = carRepo.save(car);
-//        var dealer = dealerRepo.findById(dealerId).orElseThrow();
-//        dealer.getCars().add(savedCar);
-//    }
     @PutMapping("/{id}")
     public Person updateCar(@PathVariable Long id, @RequestBody Person person){
         person.setId(id);
@@ -68,4 +61,19 @@ public class PersonController {
     void deleteOrg(@PathVariable Long id){
         personRepo.deleteById(id);
     }
+
+    @DeleteMapping("/{personId}/cars/{carId}")
+    @Transactional
+    public void deleteCarFromPerson(@PathVariable Long personId, @PathVariable Long carId) {
+        var person = personRepo.findById(personId).orElseThrow();
+        if (person.getCar() != null && person.getCar().getId().equals(carId)) {
+            person.setCar(null);
+            carRepo.deleteById(carId);
+        }
+    }
 }
+
+/*
+todo
+delete car in person
+ */
