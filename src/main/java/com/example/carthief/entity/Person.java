@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
+import java.util.Set;
 
 
 @Getter
 @Setter
 @Entity
+
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +19,10 @@ public class Person {
 
     String name;
 
-//    @OneToOne
-//    Car car;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carId", referencedColumnName = "id")
+    private Car car;
+
 
 
     @Override
