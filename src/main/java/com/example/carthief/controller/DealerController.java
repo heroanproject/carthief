@@ -46,11 +46,24 @@ public class DealerController {
         dealerRepo.save(dealer);
     }
 
+    @DeleteMapping("/{dealerId}")
+    void deleteOrg(@PathVariable Long dealerId) {
+        dealerRepo.deleteById(dealerId);
+    }
+
     @PostMapping("/{dealerId}/cars")
     @Transactional
     public void addCarToDealer(@PathVariable Long dealerId, @RequestBody Car car){
         var savedCar = carRepo.save(car);
         var dealer = dealerRepo.findById(dealerId).orElseThrow();
         dealer.getCars().add(savedCar);
+    }
+
+    @DeleteMapping("/{dealerId}/cars/{carId}")
+    @Transactional
+    public void removeCarFromDealer(@PathVariable Long dealerId, @PathVariable Long carId){
+        Dealer dealer = dealerRepo.findById(dealerId).orElseThrow();
+        dealer.getCars().remove(carRepo.findById(carId).orElseThrow());
+        dealerRepo.save(dealer);
     }
 }
