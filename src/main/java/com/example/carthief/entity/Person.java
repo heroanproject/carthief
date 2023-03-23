@@ -18,6 +18,10 @@ public class Person {
 
     String name;
 
+    @OneToOne
+    Car car;
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
