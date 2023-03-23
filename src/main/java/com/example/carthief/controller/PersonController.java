@@ -49,7 +49,7 @@ public class PersonController {
     public void addPersonToCar(@PathVariable Long personId, @RequestBody Car car) {
         var savedCar = carRepo.save(car);
         var person = personRepo.findById(personId).orElseThrow();
-
+        person.setCar(savedCar);
     }
 
 //    @PostMapping("/{dealerId}/cars")

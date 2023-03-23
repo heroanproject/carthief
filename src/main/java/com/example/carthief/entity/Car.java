@@ -21,9 +21,7 @@ public class Car {
     Integer kilometers;
     Integer year;
 
-    @OneToOne
-    @JoinColumn(name = "personId")
-    private Person person;
+
 
     @Override
     public boolean equals(Object o) {
