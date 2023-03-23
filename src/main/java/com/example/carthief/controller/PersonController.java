@@ -68,7 +68,7 @@ public class PersonController {
         var person = personRepo.findById(personId).orElseThrow();
         if (person.getCar() != null && person.getCar().getId().equals(carId)) {
             person.setCar(null);
-            carRepo.deleteById(carId);
+
         }
     }
 }
