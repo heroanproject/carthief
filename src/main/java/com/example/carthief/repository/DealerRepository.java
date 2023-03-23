@@ -10,10 +10,9 @@ import java.util.Optional;
 
 public interface DealerRepository extends ListCrudRepository<Dealer,Long> {
 
-    @EntityGraph(attributePaths = {"cars"})
+    @EntityGraph(value = "Dealer.cars")
     List<Dealer> findAll();
 
-    @EntityGraph(attributePaths = {"cars"})
     Optional<Dealer> findById(Long id);
 
     List<DealerName> findNamesBy();

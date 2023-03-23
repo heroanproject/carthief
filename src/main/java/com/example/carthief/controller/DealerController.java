@@ -1,10 +1,11 @@
 package com.example.carthief.controller;
 
+import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Dealer;
 import com.example.carthief.projection.DealerName;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
-import com.example.carthief.repository.PersonRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,14 +15,12 @@ import java.util.Set;
 @RequestMapping("/dealers")
 public class DealerController {
 
-    private DealerRepository dealerRepo;
-    private CarRepository carRepo;
-    private PersonRepository personRepo;
+    private final DealerRepository dealerRepo;
+    private final CarRepository carRepo;
 
-    public DealerController(DealerRepository dealerRepository, CarRepository carRepository, PersonRepository personRepository) {
+    public DealerController(DealerRepository dealerRepository, CarRepository carRepository) {
         dealerRepo = dealerRepository;
         carRepo = carRepository;
-        personRepo = personRepository;
     }
 
     @GetMapping
@@ -45,5 +44,13 @@ public class DealerController {
         dealer.getCars().clear();
         dealer.getCars().addAll(carRepo.saveAll(copyOfCars));
         dealerRepo.save(dealer);
+    }
+
+    @PostMapping("/{dealerId}/cars")
+    @Transactional
+    public void addCarToDealer(@PathVariable Long dealerId, @RequestBody Car car){
+        var savedCar = carRepo.save(car);
+        var dealer = dealerRepo.findById(dealerId).orElseThrow();
+        dealer.getCars().add(savedCar);
     }
 }
