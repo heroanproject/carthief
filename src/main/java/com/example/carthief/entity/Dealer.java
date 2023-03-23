@@ -12,8 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@NamedEntityGraph(name = "Dealer.people",
-        attributeNodes = @NamedAttributeNode("people"))
+//@NamedEntityGraph(name = "Dealer.people", attributeNodes = @NamedAttributeNode("people"))
+@NamedEntityGraph(name = "Dealer.cars", attributeNodes = @NamedAttributeNode("cars"))
 public class Dealer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,8 @@ public class Dealer {
     private String name;
 
     @ManyToMany
-    private Set<Person> people = new HashSet<>();
+    private Set<Car> cars = new HashSet<>();
+
+//    @ManyToMany
+//    private Set<Person> people = new HashSet<>();
 }
