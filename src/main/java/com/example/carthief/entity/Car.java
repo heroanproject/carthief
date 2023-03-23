@@ -1,51 +1,39 @@
 package com.example.carthief.entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
 public class Car {
-    public Car(Long id, String name, BigDecimal price) {
-        this.id = id;
-        this.price = price;
-        this.name = name;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
+    String name;
+    BigDecimal price;
+    String brand;
+    Integer kilometers;
+    Integer year;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(id, car.id) && Objects.equals(name, car.name) && Objects.equals(price, car.price) && Objects.equals(brand, car.brand) && Objects.equals(kilometers, car.kilometers) && Objects.equals(year, car.year);
     }
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        public Long id;
-        String name;
-        BigDecimal price;
 
-    public Car() {
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price, brand, kilometers, year);
     }
-    public BigDecimal getPrice() {
-        return price;
-    }
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-    }
+}
