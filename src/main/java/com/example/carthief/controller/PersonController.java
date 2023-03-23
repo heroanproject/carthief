@@ -73,7 +73,3 @@ public class PersonController {
     }
 }
 
-/*
-todo
-delete car in person
- */
