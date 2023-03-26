@@ -24,18 +24,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    @Order(1)
-    public SecurityFilterChain filterChainForRestApi(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .securityMatcher("/api/**")
-                .authorizeHttpRequests()
-                .anyRequest().hasRole("ADMIN")
-                .and()
-                .httpBasic()
-                .and()
-                .build();
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
