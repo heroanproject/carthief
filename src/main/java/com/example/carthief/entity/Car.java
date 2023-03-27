@@ -1,9 +1,6 @@
 package com.example.carthief.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +20,8 @@ public class Car {
     String brand;
     Integer kilometers;
     Integer year;
+
+
 
     @Override
     public boolean equals(Object o) {

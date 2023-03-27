@@ -21,3 +21,6 @@ features, such as inventory management,purchasing and selling will ensure that u
 experience when buying or selling cars online.
 
 We are going to create a database with the ability to perform CRUD operations, which include creating, reading, updating and deleting data.
+
+
+We use MySql in this project.
