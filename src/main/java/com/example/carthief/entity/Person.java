@@ -23,7 +23,6 @@ public class Person {
     @JoinColumn(name = "carId", referencedColumnName = "id")
     private Car car;
 
-
     @Override
     public boolean equals (Object o) {
         if (this == o) return true;
