@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SearchBar</title>
+</head>
+<body>
+<div class="container mt-5">
+<h2 align="left">Sök efter en bil</h2>
+<form th:action="@{/search}" method="get">
+  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Skriv in bilens märke" size="50" >
+  <button type="submit" class="btn btn-info" >Search</button>
+  <button type="submit" class="btn btn-info" >Reset</button>
+</form>
+
+<table class="table table-bordered table-sm mt-2">
+    <thead>
+    <tr>
+        <td th:text="#{id}"></td>
+        <td th:text="#{name}"></td>
+        <td th:text="#{car}"></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="l : ${listDealers}">
+        <td th:text="${lStat.index+1}"></td>
+        <td th:text="${l.getName()}"></td>
+<!--        <td th:each="car:${listDealers..getCars()}"-->
+<!--            th:text="${car.getName()}"></td>-->
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Biltjuven</title>
+</head>
+<body>
+<div th:insert="~{fragments::header}"></div>
+<div th:insert="~{searchBar}"></div>
+<table>
+    <tr>
+        <td th:text="#{id}"></td>
+        <td th:text="#{name}"></td>
+        <td th:text="#{car}"></td>
+    <tr th:each="dealerList:${allDealers}">
+        <td th:text="${dealerList.getId()}"></td>
+        <td th:text="${dealerList.getName()}"></td>
+        <td th:each="car:${dealerList.getCars()}"
+            th:text="${car.getName()}"></td>
+
+    </tr>
+</table>
+
+</body>
+</html>
