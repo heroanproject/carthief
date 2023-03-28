@@ -34,7 +34,7 @@ public class WebController {
 
     @GetMapping("/search")
     String searchByCarName(Model model, @Param("keyword") String keyword){
-        List<Dealer> list = dealerRepository.findByCarsName(keyword);
+        List<Dealer> list = dealerRepository.findByCarsNameOrCarsBrand(keyword, keyword);
         model.addAttribute("listDealers", list);
         return "carThief";
     }
