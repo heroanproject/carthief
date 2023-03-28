@@ -3,30 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>SearchBar</title>
+    <link th:href="@{main.css}" rel="stylesheet" />
 </head>
 <body>
-<div class="container mt-5">
-<h2 align="left">Sök efter en bil</h2>
+<div>
+<h2>Sök efter en bil</h2>
 <form th:action="@{/search}" method="get">
-  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Skriv in bilens märke" size="50" >
-  <button type="submit" class="btn btn-info" >Search</button>
-  <button type="submit" class="btn btn-info" >Reset</button>
+  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Skriv in bilen du vill söka på" size="50" >
+  <button type="submit">Search</button>
+  <button type="submit">Reset</button>
 </form>
 
-<table class="table table-bordered table-sm mt-2">
+<table>
     <thead>
     <tr>
-        <td th:text="#{id}"></td>
-        <td th:text="#{name}"></td>
-        <td th:text="#{car}"></td>
+        <td1 th:text="#{name}"></td1>
+        <td1 th:text="#{car}"></td1>
+        <td1 th:text="#{brand}"></td1>
+        <td1 th:text="#{year}"></td1>
+        <td1 th:text="#{kilometers}"></td1>
+        <td1 th:text="#{price}"></td1>
     </tr>
     </thead>
     <tbody>
     <tr th:each="l : ${listDealers}">
         <td th:text="${lStat.index+1}"></td>
         <td th:text="${l.getName()}"></td>
-<!--        <td th:each="car:${listDealers..getCars()}"-->
-<!--            th:text="${car.getName()}"></td>-->
+<!--        <td th:text="${l.getCars().getName()}"></td>-->
+<!--        <td th:text="${l.getCars().getBrand()}"></td>-->
+<!--        <td th:text="${l.getCars().getYear()}"></td>-->
+<!--        <td th:text="${l.getCars().getKilometers()}"></td>-->
+<!--        <td th:text="${l.getCars().getPrice()}"></td>-->
     </tr>
     </tbody>
 </table>

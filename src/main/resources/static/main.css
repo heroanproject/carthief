@@ -1,0 +1,22 @@
+header {
+    text-align: center;
+    color: black;
+    font-size: 60px;
+}
+
+h2{
+    text-align: center;
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+td1{
+    font-style: italic;
+    font-weight: bold;
+    padding: 10px;
+}
+
+form{
+    text-align: center;
+}

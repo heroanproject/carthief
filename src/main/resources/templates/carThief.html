@@ -3,23 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Biltjuven</title>
+    <link th:href="@{main.css}" rel="stylesheet" />
 </head>
-<body>
+<body style="background: bisque">
 <div th:insert="~{fragments::header}"></div>
 <div th:insert="~{searchBar}"></div>
-<table>
-    <tr>
-        <td th:text="#{id}"></td>
-        <td th:text="#{name}"></td>
-        <td th:text="#{car}"></td>
-    <tr th:each="dealerList:${allDealers}">
-        <td th:text="${dealerList.getId()}"></td>
-        <td th:text="${dealerList.getName()}"></td>
-        <td th:each="car:${dealerList.getCars()}"
-            th:text="${car.getName()}"></td>
-
-    </tr>
-</table>
-
 </body>
 </html>

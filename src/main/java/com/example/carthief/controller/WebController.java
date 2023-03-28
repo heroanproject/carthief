@@ -24,8 +24,8 @@ public class WebController {
         this.personRepository = personRepository;
     }
 
-    @GetMapping("/showDealers")
-    String dealers(Model model, String keyword){
+    @GetMapping("/carthief")
+    String dealers(Model model){
         model.addAttribute("allDealers", dealerRepository.findAll());
         model.addAttribute("allCars", carRepository.findAll());
         model.addAttribute("allPersons", personRepository.findAll());
@@ -33,10 +33,9 @@ public class WebController {
     }
 
     @GetMapping("/search")
-    String search(Model model, @Param("keyword") String keyword){
-        List<Dealer> list = dealerRepository.findByKeyword(keyword);
-        model.addAttribute(carRepository.findAll());
+    String searchByCarName(Model model, @Param("keyword") String keyword){
+        List<Dealer> list = dealerRepository.findByCarsName(keyword);
         model.addAttribute("listDealers", list);
-        return "searchBar";
+        return "carThief";
     }
 }
