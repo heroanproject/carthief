@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .anyRequest().denyAll()
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("search")
+                .defaultSuccessUrl("/api/search")
                 .and();
 
         return httpSecurity.build();
