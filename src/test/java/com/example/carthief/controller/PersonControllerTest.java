@@ -53,17 +53,6 @@ class PersonControllerTest {
     }
 
     @Test
-    public void testGetNameNotFound () {
-
-        long id = 1L;
-        when(personRepository.findById(id)).thenReturn(Optional.empty());
-
-
-        personController.getName(id);
-
-    }
-
-    @Test
     void getPersonByIdNotExistsReturn404 () throws Exception {
 
         mockMvc.perform(get("/person"))
