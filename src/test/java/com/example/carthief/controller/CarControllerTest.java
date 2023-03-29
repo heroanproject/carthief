@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -50,13 +51,15 @@ class CarControllerTest {
 
         when(carRepository.findAll()).thenReturn(List.of(car1));
 
-        mockMvc.perform(get("/cars")).andExpect(status().isOk());
+        mockMvc.perform(get("/cars"))
+               .andExpect(status().isOk());
 
     }
 
     @Test
     void getCarsByIdThatDoesNotExistsReturns404 () throws Exception {
-        mockMvc.perform(get("/cars/2")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/cars/2"))
+               .andExpect(status().isNotFound());
     }
 
     @Test
@@ -74,11 +77,17 @@ class CarControllerTest {
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1")).andExpect(status().isOk()).andReturn();
+        var result = mockMvc.perform(get("/cars/1"))
+                            .andExpect(status().isOk())
+                            .andReturn();
 
 
-        Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
-        Assertions.assertThat(result.getResponse().getContentAsString()).isEqualTo(expectedJson);
+        Assertions.assertThat(result.getResponse()
+                                    .getStatus())
+                  .isEqualTo(200);
+        Assertions.assertThat(result.getResponse()
+                                    .getContentAsString())
+                  .isEqualTo(expectedJson);
     }
 
     @Test
@@ -94,7 +103,11 @@ class CarControllerTest {
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1")).andExpect(status().isOk()).andExpect(ResponseBodyMatchers.responseBody().containsObjectAsJson(car1, Car.class));
+        var result = mockMvc.perform(get("/cars/1"))
+                            .andExpect(status().isOk())
+                            .andExpect(ResponseBodyMatchers.responseBody()
+                                                           .containsObjectAsJson(car1,
+                                                                   Car.class));
     }
 
     @Test
@@ -119,13 +132,16 @@ class CarControllerTest {
 
         String updatedCarJson = new ObjectMapper().writeValueAsString(updatedCar);
 
-        mockMvc.perform(put("/cars/{id}", car.getId()).contentType(MediaType.APPLICATION_JSON).content(updatedCarJson)).andExpect(status().isOk());
+        mockMvc.perform(put("/cars/{id}",
+                       car.getId()).contentType(MediaType.APPLICATION_JSON)
+                                   .content(updatedCarJson))
+               .andExpect(status().isOk());
 
     }
 
 
     @Test
-    void deleteAnItemFromInventoryShouldRemoveIt() throws Exception {
+    void deleteAnItemFromInventoryShouldRemoveIt () throws Exception {
         var id = 1L;
 
         var car = new Car();
@@ -134,7 +150,8 @@ class CarControllerTest {
 
         when(carRepository.findById(id)).thenReturn(Optional.of(car));
 
-        mockMvc.perform(delete("/cars/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/cars/1"))
+               .andExpect(status().isOk());
 
     }
 }

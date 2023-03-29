@@ -6,6 +6,7 @@ import lombok.Setter;
 
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,4 +22,6 @@ public class Dealer {
 
     @ManyToMany
     private Set<Car> cars = new HashSet<>();
+
+
 }
