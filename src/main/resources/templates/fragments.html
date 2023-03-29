@@ -6,8 +6,13 @@
     <link th:href="@{main.css}" rel="stylesheet" />
 </head>
 <body>
+<header th:fragment="header">
+<a href="http://localhost:8080/carthief?lang=en">English</a>
+<a href="http://localhost:8080/carthief?lang=sv">Svenska</a>
+</header>
 
-<header th:fragment="header" th:text="#{header}"></header>
+<h1 th:fragment="h1" th:text="#{h1}"></h1>
+<h2 th:fragment="h2" th:text="#{h2}"></h2>
 
 <footer th:fragment="footer">Catch me if you can</footer>
 

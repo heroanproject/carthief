@@ -1,0 +1,22 @@
+form{
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+th{
+    font-style: italic;
+    font-weight: bold;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+tbody{
+    text-align: center;
+}
+
+table, td{
+    border: 1px solid black;
+    box-sizing: content-box;
+    block-size: 50px;
+    padding: 5px;
+}

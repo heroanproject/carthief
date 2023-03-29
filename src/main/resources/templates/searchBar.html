@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>SearchBar</title>
-    <link th:href="@{main.css}" rel="stylesheet" />
+    <link th:href="@{searchBar.css}" rel="stylesheet" />
 </head>
 <body>
 <div>
-<h2>Sök efter en bil</h2>
 <form th:action="@{/search}" method="get">
-  <input type="text" name="keyword" th:value="${keyword}"  placeholder="Skriv in bilen du vill söka på" size="50" >
+  <input type="text" name="keyword" th:value="${keyword}"  th:placeholder="#{placeholder}" size="50" >
   <button type="submit">Search</button>
   <button type="submit">Reset</button>
 </form>
@@ -17,23 +16,39 @@
 <table>
     <thead>
     <tr>
-        <td1 th:text="#{name}"></td1>
-        <td1 th:text="#{car}"></td1>
-        <td1 th:text="#{brand}"></td1>
-        <td1 th:text="#{year}"></td1>
-        <td1 th:text="#{kilometers}"></td1>
-        <td1 th:text="#{price}"></td1>
+        <th th:text="#{id}"></th>
+        <th th:text="#{name}"></th>
+        <th th:text="#{details}"></th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="l : ${listDealers}">
         <td th:text="${lStat.index+1}"></td>
         <td th:text="${l.getName()}"></td>
-<!--        <td th:text="${l.getCars().getName()}"></td>-->
-<!--        <td th:text="${l.getCars().getBrand()}"></td>-->
-<!--        <td th:text="${l.getCars().getYear()}"></td>-->
-<!--        <td th:text="${l.getCars().getKilometers()}"></td>-->
-<!--        <td th:text="${l.getCars().getPrice()}"></td>-->
+        <td>
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="#{id}"></th>
+                    <th th:text="#{car}"></th>
+                    <th th:text="#{brand}"></th>
+                    <th th:text="#{year}"></th>
+                    <th th:text="#{kilometers}"></th>
+                    <th th:text="#{price}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="car : ${l.getCars()}">
+                    <td th:text="${carStat.index+1}"></td>
+                    <td th:text="${car.getName()}"></td>
+                    <td th:text="${car.getBrand()}"></td>
+                    <td th:text="${car.getYear()}"></td>
+                    <td th:text="${car.getKilometers()}"></td>
+                    <td th:text="${car.getPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
     </tr>
     </tbody>
 </table>
