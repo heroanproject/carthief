@@ -12,6 +12,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -122,4 +123,18 @@ class CarControllerTest {
 
     }
 
+
+    @Test
+    void deleteAnItemFromInventoryShouldRemoveIt() throws Exception {
+        var id = 1L;
+
+        var car = new Car();
+        car.setName("Test");
+        car.setId(id);
+
+        when(carRepository.findById(id)).thenReturn(Optional.of(car));
+
+        mockMvc.perform(delete("/cars/1")).andExpect(status().isOk());
+
+    }
 }
