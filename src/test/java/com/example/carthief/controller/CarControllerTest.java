@@ -45,7 +45,7 @@ class CarControllerTest {
         car1.setId(1L);
         car1.setName("Honda");
         car1.setPrice(BigDecimal.valueOf(1000));
-        car1.setBrand("Civik");
+        car1.setBrand("Civic");
         car1.setKilometers(60000);
         car1.setYear(2012);
 
@@ -66,16 +66,17 @@ class CarControllerTest {
         car1.setId(1L);
         car1.setName("Honda");
         car1.setPrice(BigDecimal.valueOf(1000));
-        car1.setBrand("Civik");
+        car1.setBrand("Civic");
         car1.setKilometers(60000);
         car1.setYear(2012);
 
         String expectedJson = """
-                {"id":1,"name":"Honda","price":1000,"brand":"Civik","kilometers":60000,"year":2012}""";
+                {"id":1,"name":"Honda","price":1000,"brand":"Civic","kilometers":60000,"year":2012}""";
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1")).andExpect(status().isOk()).andReturn();
+        var result = mockMvc.perform(get("/cars/1"))
+                            .andExpect(status().isOk()).andReturn();
 
 
         Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -88,7 +89,7 @@ class CarControllerTest {
         car1.setId(1L);
         car1.setName("Honda");
         car1.setPrice(BigDecimal.valueOf(1000));
-        car1.setBrand("Civik");
+        car1.setBrand("Civic");
         car1.setKilometers(60000);
         car1.setYear(2012);
 
@@ -98,7 +99,9 @@ class CarControllerTest {
         var result = mockMvc.perform(get("/cars/1"))
                             .andExpect(status().isOk())
                             .andExpect(ResponseBodyMatchers
-                                    .responseBody().containsObjectAsJson(car1, Car.class));
+                                    .responseBody().containsObjectAsJson(car1, Car.class)).andReturn();
+
+        Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
     }
 
     @Test

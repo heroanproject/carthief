@@ -6,28 +6,20 @@ import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Person;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.PersonRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -61,12 +53,12 @@ class PersonControllerTest {
     }
 
     @Test
-    public void testGetNameNotFound () throws Exception {
-        // Given
-        Long id = 1L;
+    public void testGetNameNotFound () {
+
+        long id = 1L;
         when(personRepository.findById(id)).thenReturn(Optional.empty());
 
-        // When
+
         personController.getName(id);
 
     }
@@ -104,7 +96,10 @@ class PersonControllerTest {
 
         controller.addNumber(personToAdd);
 
-        var result = mockMvc.perform(get("/person/1")).andExpect(status().isOk());
+        var result = mockMvc.perform(get("/person/1")).andExpect(status().isOk())
+                            .andReturn();
+
+      org.assertj.core.api.Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
     }
 
     @Test
