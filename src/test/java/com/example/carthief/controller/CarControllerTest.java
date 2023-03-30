@@ -12,7 +12,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -75,8 +74,7 @@ class CarControllerTest {
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1"))
-                            .andExpect(status().isOk()).andReturn();
+        var result = mockMvc.perform(get("/cars/1")).andExpect(status().isOk()).andReturn();
 
 
         Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -98,8 +96,8 @@ class CarControllerTest {
 
         var result = mockMvc.perform(get("/cars/1"))
                             .andExpect(status().isOk())
-                            .andExpect(ResponseBodyMatchers
-                                    .responseBody().containsObjectAsJson(car1, Car.class)).andReturn();
+                            .andExpect(ResponseBodyMatchers.responseBody().containsObjectAsJson(car1, Car.class))
+                            .andReturn();
 
         Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
     }
