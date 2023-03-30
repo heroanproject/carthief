@@ -14,7 +14,13 @@ tbody{
     text-align: center;
 }
 
-table, td{
+td{
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+table{
     border: 1px solid black;
     box-sizing: content-box;
     block-size: 50px;

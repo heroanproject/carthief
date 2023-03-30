@@ -14,6 +14,16 @@
 <h1 th:fragment="h1" th:text="#{h1}"></h1>
 <h2 th:fragment="h2" th:text="#{h2}"></h2>
 
+<form th:fragment="searchBar" th:action="@{/search}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}"  th:placeholder="#{placeholder}" size="50" >
+        <button type="submit">Search</button>
+        <button type="submit">Reset</button>
+</form>
+
+<table th:fragment="carList"></table>
+
+<table th:fragment="addCarToDealer"></table>
+
 <footer th:fragment="footer">Catch me if you can</footer>
 
 </body>

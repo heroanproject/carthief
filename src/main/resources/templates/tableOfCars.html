@@ -2,16 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>SearchBar</title>
-    <link th:href="@{searchBar.css}" rel="stylesheet" />
+    <title>Table of cars</title>
+    <link th:href="@{table.css}" rel="stylesheet" />
 </head>
 <body>
-<div>
-<form th:action="@{/search}" method="get">
-  <input type="text" name="keyword" th:value="${keyword}"  th:placeholder="#{placeholder}" size="50" >
-  <button type="submit">Search</button>
-  <button type="submit">Reset</button>
-</form>
 
 <table>
     <thead>
@@ -52,6 +46,6 @@
     </tr>
     </tbody>
 </table>
-</div>
+
 </body>
 </html>
