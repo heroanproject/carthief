@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add dealer</title>
+</head>
+<body>
+
+<p th:text="#{addDealer}"></p>
+<table>
+  <thead>
+  <th th:text="#{name}"></th>
+  </thead>
+  <tbody>
+  <form th:action="@{/savedealer}" method="post">
+    <td>
+      <label>
+        <input type="text" name="name"  size="20" >
+      </label>
+    </td>
+    <td>
+      <button type="submit">Add dealer</button>
+    </td>
+  </form>
+  </tbody>
+</table>
+
+</body>
+</html>

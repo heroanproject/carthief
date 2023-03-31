@@ -17,4 +17,7 @@ public interface DealerRepository extends ListCrudRepository<Dealer,Long> {
     Optional<Dealer> findById(Long id);
 
     List<DealerName> findNamesBy();
+
+    @EntityGraph(value = "Dealer.cars")
+    List<Dealer> findByCarsNameOrCarsBrand(String name, String brand);
 }

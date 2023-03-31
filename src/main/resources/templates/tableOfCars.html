@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Table of cars</title>
+    <link th:href="@{table.css}" rel="stylesheet" />
+</head>
+<body>
+
+<p th:text="#{available}"></p>
+
+<table>
+    <thead>
+    <tr>
+        <th th:text="#{id}"></th>
+        <th th:text="#{name}"></th>
+        <th th:text="#{details}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="l : ${listDealers}">
+        <td th:text="${lStat.index+1}"></td>
+        <td th:text="${l.getName()}"></td>
+        <td>
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="#{id}"></th>
+                    <th th:text="#{car}"></th>
+                    <th th:text="#{brand}"></th>
+                    <th th:text="#{year}"></th>
+                    <th th:text="#{kilometers}"></th>
+                    <th th:text="#{price}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="car : ${l.getCars()}">
+                    <td th:text="${carStat.index+1}"></td>
+                    <td th:text="${car.getName()}"></td>
+                    <td th:text="${car.getBrand()}"></td>
+                    <td th:text="${car.getYear()}"></td>
+                    <td th:text="${car.getKilometers()}"></td>
+                    <td th:text="${car.getPrice()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
