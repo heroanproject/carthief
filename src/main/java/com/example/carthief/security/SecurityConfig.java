@@ -24,11 +24,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/error").permitAll()
                 .requestMatchers(HttpMethod.POST, "/register").permitAll()
-                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/carthief").permitAll()
+                .requestMatchers("/*.css").permitAll()
+                .requestMatchers("/save").authenticated()
                 .anyRequest().denyAll()
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("/api/search")
+                .defaultSuccessUrl("/carthief")
                 .and();
 
         return httpSecurity.build();
