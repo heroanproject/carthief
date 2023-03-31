@@ -45,4 +45,10 @@ public class WebController {
         dealerRepository.save(dealer);
         return "redirect:carthief";
     }
+
+    @PostMapping("/savedealer")
+    String addDealer(@ModelAttribute Dealer dealer){
+        dealerRepository.save(dealer);
+        return "redirect:carthief";
+    }
 }
