@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -14,7 +13,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 public class Car {
 
     @Id
@@ -25,14 +23,6 @@ public class Car {
     Integer year;
     Integer kilometers;
     BigDecimal price;
-
-    public Car(String name, String brand, Integer year, Integer kilometers, BigDecimal price) {
-        this.name = name;
-        this.brand = brand;
-        this.year = year;
-        this.kilometers = kilometers;
-        this.price = price;
-    }
 
     @Override
     public boolean equals(Object o) {

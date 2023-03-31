@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -38,15 +38,7 @@ public class WebController {
     }
 
     @PostMapping("/save")
-    String addCarToDealer(Model model, @Param("dealerId") Long dealerId, @Param("name") String name, @Param("brand") String brand,
-                          @Param("year") Integer year, @Param("kilometers") Integer kilometers, @Param("price") BigDecimal price){
-        model.addAttribute("dealerId", dealerId);
-        model.addAttribute("name", name);
-        model.addAttribute("brand", brand);
-        model.addAttribute("year", year);
-        model.addAttribute("kilometers", kilometers);
-        model.addAttribute("price", price);
-        Car car = new Car(name, brand, year, kilometers, price);
+    String addCarToDealer(@ModelAttribute("dealerId") Long dealerId, @ModelAttribute Car car){
         var savedCar = carRepository.save(car);
         var dealer = dealerRepository.findById(dealerId).orElseThrow();
         dealer.getCars().add(savedCar);

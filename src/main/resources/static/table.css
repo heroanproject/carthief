@@ -3,6 +3,13 @@ form{
     padding-bottom: 10px;
 }
 
+p{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 0;
+}
+
 th{
     font-style: italic;
     font-weight: bold;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,7 +7,8 @@
 </head>
 <body>
 <header th:fragment="header">
-    <a href="http://localhost:8080/registrer">Login</a>
+    <a sec:authorize="!isAuthenticated()" href="http://localhost:8080/login">Login</a>
+    <a sec:authorize="isAuthenticated()" href="http://localhost:8080/logout">Logout</a>
     <a href="http://localhost:8080/carthief?lang=en">English</a>
     <a href="http://localhost:8080/carthief?lang=sv">Svenska</a>
 </header>
@@ -22,9 +23,9 @@
     <button type="submit">Search</button>
 </form>
 
-<table th:fragment="carList"></table>
-
 <table th:fragment="addCarToDealer"></table>
+
+<table th:fragment="carList"></table>
 
 <footer th:fragment="footer">Catch me if you can</footer>
 
