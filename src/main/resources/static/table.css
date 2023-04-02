@@ -1,0 +1,35 @@
+form{
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+p{
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 0;
+}
+
+th{
+    font-style: italic;
+    font-weight: bold;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+tbody{
+    text-align: center;
+}
+
+td{
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+table{
+    border: 1px solid black;
+    box-sizing: content-box;
+    block-size: 50px;
+    padding: 5px;
+}

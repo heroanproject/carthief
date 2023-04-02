@@ -1,6 +1,9 @@
 package com.example.carthief.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,12 +19,10 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     String name;
-    BigDecimal price;
     String brand;
-    Integer kilometers;
     Integer year;
-
-
+    Integer kilometers;
+    BigDecimal price;
 
     @Override
     public boolean equals(Object o) {

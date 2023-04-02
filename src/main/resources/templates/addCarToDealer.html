@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add car</title>
+</head>
+<body>
+
+<p th:text="#{addCar}"></p>
+<table>
+    <thead>
+        <th th:text="#{choose}"></th>
+        <th th:text="#{car}"></th>
+        <th th:text="#{brand}"></th>
+        <th th:text="#{year}"></th>
+        <th th:text="#{kilometers}"></th>
+        <th th:text="#{price}"></th>
+    </thead>
+    <tbody>
+    <form th:action="@{/save}" method="post">
+        <td>
+            <label>
+                <select name="dealerId">
+                    <option
+                            th:each="type : ${listDealers}"
+                            th:value="${type.getId()}"
+                            th:text="${type.getName()}"></option>
+                </select>
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="text" name="name"  size="20" >
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="text" name="brand"  size="20" >
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="text" name="year"  size="20" >
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="text" name="kilometers"  size="20" >
+            </label>
+        </td>
+        <td>
+            <label>
+                <input type="text" name="price"  size="20" >
+            </label>
+        </td>
+        <td >
+            <button type="submit">Add car</button>
+        </td>
+    </form>
+    </tbody>
+</table>
+
+</body>
+</html>
