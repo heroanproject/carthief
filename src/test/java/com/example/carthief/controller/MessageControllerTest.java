@@ -2,6 +2,9 @@ package com.example.carthief.controller;
 
 import com.example.carthief.service.Publisher;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = MessageController.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class MessageControllerTest {
+class MessageControllerTest {
 
     @Autowired
     private MessageController messageController;
@@ -28,16 +31,22 @@ public class MessageControllerTest {
     private Publisher publisher;
 
 
+
+
     @Test
     void testPostMessage () {
         String message = "test message";
         messageController.postMessage(message);
         Mockito.verify(publisher, Mockito.times(1)).publishMessage(message);
     }
+    @ParameterizedTest
+    @CsvSource({
+            "test message",
+            "test message ^&*()_+{}|:\"<>?,./;'[]\\=-`~",
+            "{\"name\": \"test\", \"age\": 30}"
+    })
 
-    @Test
-    void testPostMessageWithValidMessage () throws Exception {
-        String message = "test message";
+    void testPostMessage(String message) throws Exception {
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
                .andExpect(status().isOk());
         Mockito.verify(publisher, Mockito.times(1)).publishMessage(message);
@@ -51,22 +60,7 @@ public class MessageControllerTest {
         Mockito.verifyNoInteractions(publisher);
     }
 
-    @Test
-    void testPostMessageWithSpecialCharacters () throws Exception {
-        String message = "test message ^&*()_+{}|:\"<>?,./;'[]\\=-`~";
-        mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
-               .andExpect(status().isOk());
-        Mockito.verify(publisher, Mockito.times(1)).publishMessage(message);
-    }
 
-
-    @Test
-    void testPostMessageWithJson () throws Exception {
-        String message = "{\"name\": \"test\", \"age\": 30}";
-        mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
-               .andExpect(status().isOk());
-        Mockito.verify(publisher, Mockito.times(1)).publishMessage(message);
-    }
 
     @Test
     void testPostMessageWithXml () throws Exception {
