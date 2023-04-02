@@ -94,7 +94,7 @@ class PersonControllerTest {
     }
 
     @Test
-    public void testDeleteOrg () throws Exception {
+    void testDeleteOrg () throws Exception {
 
         Long id = 1L;
 
@@ -109,7 +109,7 @@ class PersonControllerTest {
     }
 
     @Test
-    public void testAddPersonToCar () {
+    void testAddPersonToCar () {
         Long personId = 1L;
 
         Car car = new Car();

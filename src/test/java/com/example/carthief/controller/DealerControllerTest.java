@@ -78,7 +78,7 @@ class DealerControllerTest {
     }
 
     @Test
-    public void testAddCarToDealer () {
+    void testAddCarToDealer () {
         Long personId = 1L;
 
         Car car = new Car();

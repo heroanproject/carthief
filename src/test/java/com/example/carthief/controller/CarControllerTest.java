@@ -41,7 +41,7 @@ class CarControllerTest {
 
 
     @Test
-    public void testGetCars () throws Exception {
+    void testGetCars () throws Exception {
         Car car1 = new Car();
         car1.setId(1L);
         car1.setName("Honda");
@@ -105,7 +105,7 @@ class CarControllerTest {
     }
 
     @Test
-    public void testUpdateCar () throws Exception {
+    void testUpdateCar () throws Exception {
         Car car = new Car();
         car.setId(1L);
         car.setName("Honda");
