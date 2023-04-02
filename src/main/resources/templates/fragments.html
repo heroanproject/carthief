@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{main.css}" rel="stylesheet" />
+</head>
+<body>
+<header th:fragment="header">
+    <a sec:authorize="!isAuthenticated()" href="http://localhost:8080/login">Login</a>
+    <a sec:authorize="isAuthenticated()" href="http://localhost:8080/logout">Logout</a>
+    <a href="http://localhost:8080/carthief?lang=en">English</a>
+    <a href="http://localhost:8080/carthief?lang=sv">Svenska</a>
+</header>
+
+<h1 th:fragment="h1" th:text="#{h1}"></h1>
+<h2 th:fragment="h2" th:text="#{h2}"></h2>
+
+<form th:fragment="searchBar" th:action="@{/search}" method="get">
+    <label>
+        <input type="text" name="keyword" th:value="${keyword}"  th:placeholder="#{placeholder}" size="50" >
+    </label>
+    <button type="submit">Search</button>
+</form>
+
+<table th:fragment="addCarToDealer"></table>
+
+<table th:fragment="carList"></table>
+
+<footer th:fragment="footer">Catch me if you can</footer>
+
+</body>
+</html>

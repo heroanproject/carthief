@@ -16,14 +16,13 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     String name;
-    BigDecimal price;
     String brand;
-    Integer kilometers;
     Integer year;
-
+    Integer kilometers;
+    BigDecimal price;
 
     @Override
-    public boolean equals (Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
@@ -31,7 +30,7 @@ public class Car {
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(id, name, price, brand, kilometers, year);
     }
 }
