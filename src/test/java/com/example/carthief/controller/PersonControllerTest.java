@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PersonController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class PersonControllerTest {
 
     @Autowired
@@ -49,13 +51,13 @@ class PersonControllerTest {
 
         when(personRepository.findAll()).thenReturn(List.of(person));
 
-        mockMvc.perform(get("/person")).andExpect(status().isOk());
+        mockMvc.perform(get("/persons")).andExpect(status().isOk());
     }
 
     @Test
     void getPersonByIdNotExistsReturn404 () throws Exception {
 
-        mockMvc.perform(get("/person"))
+        mockMvc.perform(get("/persons"))
                .andExpect(status().isOk())
                .andExpect(content()
                        .json("[]"));
@@ -85,7 +87,7 @@ class PersonControllerTest {
 
         controller.addNumber(personToAdd);
 
-        var result = mockMvc.perform(get("/person/1")).andExpect(status().isOk())
+        var result = mockMvc.perform(get("/persons/1")).andExpect(status().isOk())
                             .andReturn();
 
       org.assertj.core.api.Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -103,7 +105,7 @@ class PersonControllerTest {
         personController.deleteOrg(id);
 
         when(personRepository.findById(id)).thenReturn(Optional.of(person));
-        mockMvc.perform(delete("/person/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/persons/1")).andExpect(status().isOk());
     }
 
     @Test

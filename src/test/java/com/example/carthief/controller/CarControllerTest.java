@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -30,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CarController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class CarControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -70,7 +72,7 @@ class CarControllerTest {
         car1.setYear(2012);
 
         String expectedJson = """
-                {"id":1,"name":"Honda","price":1000,"brand":"Civic","kilometers":60000,"year":2012}""";
+                {"id":1,"name":"Honda","brand":"Civic","year":2012,"kilometers":60000,"price":1000}""";
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
