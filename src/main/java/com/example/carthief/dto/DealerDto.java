@@ -1,6 +1,7 @@
 package com.example.carthief.dto;
 
 import com.example.carthief.entity.Car;
+import com.example.carthief.entity.Dealer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +15,9 @@ public class DealerDto {
     private String name;
     private Set<Car> cars;
 
-    public DealerDto(Long id, String name, Set<Car> cars) {
-        this.id = id;
-        this.name = name;
-        this.cars = cars;
+    public DealerDto(Dealer dealer) {
+        this.id = dealer.getId();
+        this.name = dealer.getName();
+        this.cars = dealer.getCars();
     }
 }
