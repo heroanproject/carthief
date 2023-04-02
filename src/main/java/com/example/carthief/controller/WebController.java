@@ -1,7 +1,9 @@
 package com.example.carthief.controller;
 
+import com.example.carthief.dto.DealerDto;
 import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Dealer;
+import com.example.carthief.mapper.Mapper;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,10 +20,12 @@ public class WebController {
 
     private final DealerRepository dealerRepository;
     private final CarRepository carRepository;
+    private final Mapper mapper;
 
-    public WebController(DealerRepository dealerRepository, CarRepository carRepository) {
+    public WebController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper) {
         this.dealerRepository = dealerRepository;
         this.carRepository = carRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping("/carthief")
@@ -47,8 +51,8 @@ public class WebController {
     }
 
     @PostMapping("/savedealer")
-    String addDealer(@ModelAttribute Dealer dealer){
-        dealerRepository.save(dealer);
+    String addDealer(@ModelAttribute DealerDto dealerDto){
+        dealerRepository.save(mapper.mapToDealer(dealerDto));
         return "redirect:carthief";
     }
 }
