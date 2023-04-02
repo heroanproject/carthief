@@ -29,14 +29,14 @@ public class MessageControllerTest {
 
 
     @Test
-    public void testPostMessage () {
+    void testPostMessage () {
         String message = "test message";
         messageController.postMessage(message);
         Mockito.verify(publisher, Mockito.times(1)).publishMessage(message);
     }
 
     @Test
-    public void testPostMessageWithValidMessage () throws Exception {
+    void testPostMessageWithValidMessage () throws Exception {
         String message = "test message";
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
                .andExpect(status().isOk());
@@ -44,7 +44,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void testPostMessageWithEmptyMessage () throws Exception {
+    void testPostMessageWithEmptyMessage () throws Exception {
         String message = "";
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
                .andExpect(status().isBadRequest());
@@ -52,7 +52,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void testPostMessageWithSpecialCharacters () throws Exception {
+    void testPostMessageWithSpecialCharacters () throws Exception {
         String message = "test message ^&*()_+{}|:\"<>?,./;'[]\\=-`~";
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
                .andExpect(status().isOk());
@@ -61,7 +61,7 @@ public class MessageControllerTest {
 
 
     @Test
-    public void testPostMessageWithJson () throws Exception {
+    void testPostMessageWithJson () throws Exception {
         String message = "{\"name\": \"test\", \"age\": 30}";
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_JSON).content(message))
                .andExpect(status().isOk());
@@ -69,7 +69,7 @@ public class MessageControllerTest {
     }
 
     @Test
-    public void testPostMessageWithXml () throws Exception {
+    void testPostMessageWithXml () throws Exception {
         String message = "<user><name>test</name><age>30</age></user>";
         mockMvc.perform(post("/messages").contentType(MediaType.APPLICATION_XML).content(message))
                .andExpect(status().isOk());
