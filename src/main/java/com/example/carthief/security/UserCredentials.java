@@ -11,11 +11,11 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Document(collation = "user")
-public class User {
+@Document(collection = "users")
+public class UserCredentials {
 
     @Id
-    private Long id;
+    private String id;
 
     @NonNull
     @Column(unique = true)
@@ -27,7 +27,10 @@ public class User {
     @NonNull
     private Role role;
 
-    public User(@NonNull String name, @NonNull String password, @NonNull Role role) {
+    public UserCredentials() {
+    }
+
+    public UserCredentials(@NonNull String name, @NonNull String password, @NonNull Role role) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -36,7 +39,7 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
+        if (!(o instanceof UserCredentials user)) return false;
         return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(password, user.password) && role == user.role;
     }
 

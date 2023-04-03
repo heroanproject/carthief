@@ -9,7 +9,6 @@ import java.util.Objects;
 @Setter
 public class UserDto {
 
-    private Long id;
     private String name;
     private String password;
     private Role role;
@@ -17,22 +16,21 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Long id, String name, String password, Role role) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.role = role;
+    public UserDto(UserCredentials user) {
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.role = Role.valueOf(role.toString());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserDto userDto)) return false;
-        return Objects.equals(id, userDto.id) && Objects.equals(name, userDto.name) && Objects.equals(password, userDto.password) && role == userDto.role;
+        return Objects.equals(name, userDto.name) && Objects.equals(password, userDto.password) && role == userDto.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, role);
+        return Objects.hash(name, password, role);
     }
 }
