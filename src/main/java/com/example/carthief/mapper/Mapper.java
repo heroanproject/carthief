@@ -12,15 +12,15 @@ public class Mapper {
     public Mapper() {
     }
 
-    public Car mapDtoToDealer(CarDto carDto){
+    public Car mapDtoToCar(CarDto carDto){
         return new Car(carDto.getId(), carDto.getName(), carDto.getBrand(), carDto.getYear(), carDto.getKilometers(), carDto.getPrice());
     }
 
-    public CarDto mapDealerToDto(Car car){
+    public CarDto mapCarToDto(Car car){
         return new CarDto(car);
     }
 
-    public List<CarDto> mapDealerToDto(List<Car> cars){
+    public List<CarDto> mapCarToDto(List<Car> cars){
         return cars.stream().map(CarDto::new).toList();
     }
 }
