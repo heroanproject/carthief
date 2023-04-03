@@ -46,7 +46,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id) {
+    public void deleteCar (@PathVariable Long id) {
         carRepo.deleteById(id);
     }
 }
