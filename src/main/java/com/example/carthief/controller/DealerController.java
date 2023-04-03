@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/dealers")
+@RequestMapping("/api/dealers")
 public class DealerController {
 
     private final DealerRepository dealerRepo;
