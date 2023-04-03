@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   app:
-    image: 'mysql:Carthief'
     restart: unless-stopped
     build: .
     ports:
@@ -18,12 +17,13 @@ services:
   mysqlserver:
     image: 'mysql:latest'
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       - MYSQL_DATABASE= demo
       - MYSQL_ROOT_PASSWORD=5350
         - MYSQL_USER=developer
         - MYSQL_PASSWORD=password
+        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
       - db:/var/lib/mysql
 
