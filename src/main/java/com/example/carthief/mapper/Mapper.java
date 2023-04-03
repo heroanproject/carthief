@@ -16,6 +16,10 @@ public class Mapper {
         return new Dealer(dealerDto.getId(), dealerDto.getName(), dealerDto.getCars());
     }
 
+    public DealerDto mapDealerToDto(Dealer dealer){
+        return new DealerDto(dealer);
+    }
+
     public List<DealerDto> mapDealerToDto(List<Dealer> dealers){
         return dealers.stream().map(DealerDto::new).toList();
     }

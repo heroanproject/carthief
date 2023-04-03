@@ -15,6 +15,9 @@ public class DealerDto {
     private String name;
     private Set<Car> cars;
 
+    public DealerDto() {
+    }
+
     public DealerDto(Dealer dealer) {
         this.id = dealer.getId();
         this.name = dealer.getName();
