@@ -13,31 +13,36 @@ import java.util.List;
 public class CarController {
     private final CarRepository carRepo;
 
-    public CarController(CarRepository carRepository) {
+    public CarController (CarRepository carRepository) {
         carRepo = carRepository;
     }
-        @GetMapping("/{id}")
-        Car getACar(@PathVariable long id) {
-            return carRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        }
+
+    @GetMapping("/{id}")
+    Car getACar (@PathVariable long id) {
+        return carRepo.findById(id)
+                      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping
-    List<Car> getCars() {
+    List<Car> getCars () {
         return carRepo.findAll();
     }
+
     @PostMapping
-    void addCar(@RequestBody Car car) {
+    void addCar (@RequestBody Car car) {
         String name = car.getName();
-        if (name == null || name.isEmpty())
-            throw new IllegalStateException();
+        if (name == null || name.isEmpty()) throw new IllegalStateException();
         carRepo.save(car);
     }
+
     @PutMapping("/{id}")
-    public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
+    public Car updateCar (@PathVariable Long id, @RequestBody Car car) {
         car.setId(id);
         return carRepo.save(car);
     }
+
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id) {
+    public void deleteCar (@PathVariable Long id) {
         carRepo.deleteById(id);
     }
 }
