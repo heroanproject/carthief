@@ -28,7 +28,6 @@ public class SecurityConfig {
                 .httpBasic()
                 .and()
                 .build();
-
     }
 
     @Bean
