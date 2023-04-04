@@ -52,7 +52,8 @@ public class SecurityConfig {
                 .and()
                 .oauth2Login()
                 .defaultSuccessUrl("/carthief")
-                .and();
+                .and()
+                .logout(logout -> logout.logoutSuccessUrl("/carthief"));
 
         return httpSecurity.build();
     }
