@@ -22,10 +22,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto){
-        UserCredentials user = new UserCredentials();
-        user.setName(userDto.getName());
-        user.setPassword(encoder.encode(userDto.getPassword()));
-        user.setRole(userDto.getRole());
+        UserCredentials user = new UserCredentials(userDto.getName(), encoder.encode(userDto.getPassword()), userDto.getRole());
 
         if(userRepository.findByName(user.getName()) != null)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

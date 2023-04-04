@@ -27,9 +27,6 @@ public class UserCredentials {
     @NonNull
     private Role role;
 
-    public UserCredentials() {
-    }
-
     public UserCredentials(@NonNull String name, @NonNull String password, @NonNull Role role) {
         this.name = name;
         this.password = password;
