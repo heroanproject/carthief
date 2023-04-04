@@ -20,7 +20,7 @@ services:
       RABBIT_USER: guest
       RABBIT_PASS: guest
       OAUTH_ID: 195540712286-bctckt883l7obr54vbsgr8bv7ft5ct78.apps.googleusercontent.com
-      OAUTH_SECRET: OAUTH_SECRET
+      OAUTH_SECRET: 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
     ports:
       - "8080:8080"
 
