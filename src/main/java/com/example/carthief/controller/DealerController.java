@@ -1,7 +1,9 @@
 package com.example.carthief.controller;
 
+import com.example.carthief.dto.DealerDto;
 import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Dealer;
+import com.example.carthief.mapper.Mapper;
 import com.example.carthief.projection.DealerName;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
@@ -19,21 +21,22 @@ public class DealerController {
 
     private final DealerRepository dealerRepo;
     private final CarRepository carRepo;
+    private final Mapper mapper;
 
-    public DealerController(DealerRepository dealerRepository, CarRepository carRepository) {
+    public DealerController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper) {
         dealerRepo = dealerRepository;
         carRepo = carRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    List<Dealer> getDealers(){
-        return dealerRepo.findAll();
+    List<DealerDto> getDealers(){
+        return mapper.mapDealerToDto(dealerRepo.findAll());
     }
 
     @GetMapping("/{dealerId}")
-    Dealer getDealer(@PathVariable Long dealerId){
-        return dealerRepo.findById(dealerId)
-                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    DealerDto getDealer(@PathVariable Long dealerId){
+        return mapper.mapDealerToDto(dealerRepo.findById(dealerId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
     @GetMapping("/names")
@@ -42,11 +45,14 @@ public class DealerController {
     }
 
     @PostMapping
-    void addDealer(@RequestBody Dealer dealer){
-        var copyOfCars = Set.copyOf(dealer.getCars());
-        dealer.getCars().clear();
-        dealer.getCars().addAll(carRepo.saveAll(copyOfCars));
-        dealerRepo.save(dealer);
+    void addDealer(@RequestBody DealerDto dealerDto){
+        Set<Car> copyOfCars;
+        if(dealerDto.getCars() != null) {
+            copyOfCars = Set.copyOf(dealerDto.getCars());
+            dealerDto.getCars().clear();
+            dealerDto.getCars().addAll(carRepo.saveAll(copyOfCars));
+        }
+        dealerRepo.save(mapper.mapDtoToDealer(dealerDto));
     }
 
     @DeleteMapping("/{dealerId}")

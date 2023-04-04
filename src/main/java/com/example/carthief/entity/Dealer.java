@@ -1,7 +1,9 @@
 package com.example.carthief.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -12,6 +14,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @NamedEntityGraph(name = "Dealer.cars", attributeNodes = @NamedAttributeNode("cars"))
 public class Dealer {
 

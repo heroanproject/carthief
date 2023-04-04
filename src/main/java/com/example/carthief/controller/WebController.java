@@ -1,7 +1,8 @@
 package com.example.carthief.controller;
 
+import com.example.carthief.dto.DealerDto;
 import com.example.carthief.entity.Car;
-import com.example.carthief.entity.Dealer;
+import com.example.carthief.mapper.Mapper;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,21 +19,23 @@ public class WebController {
 
     private final DealerRepository dealerRepository;
     private final CarRepository carRepository;
+    private final Mapper mapper;
 
-    public WebController(DealerRepository dealerRepository, CarRepository carRepository) {
+    public WebController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper) {
         this.dealerRepository = dealerRepository;
         this.carRepository = carRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping("/carthief")
     String dealers(Model model){
-        model.addAttribute("listDealers", dealerRepository.findAll());
+        model.addAttribute("listDealers", mapper.mapDealerToDto(dealerRepository.findAll()));
         return "carThief";
     }
 
     @GetMapping("/search")
     String searchByCarName(Model model, @Param("keyword") String keyword){
-        List<Dealer> list = dealerRepository.findByCarsNameOrCarsBrand(keyword, keyword);
+        List<DealerDto> list = mapper.mapDealerToDto(dealerRepository.findByCarsNameOrCarsBrand(keyword, keyword));
         model.addAttribute("listDealers", list);
         return "carThief";
     }
@@ -47,8 +50,8 @@ public class WebController {
     }
 
     @PostMapping("/savedealer")
-    String addDealer(@ModelAttribute Dealer dealer){
-        dealerRepository.save(dealer);
+    String addDealer(@ModelAttribute DealerDto dealerDto){
+        dealerRepository.save(mapper.mapDtoToDealer(dealerDto));
         return "redirect:carthief";
     }
 }
