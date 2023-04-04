@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: carthief
+    depends_on:
+      - mysql
+      - mongodb
+      - rabbitMQ
+    environment:
+      DB_URL: jdbc:mysql://mysqlDb:3306/demo
+      DB_USER: developer
+      DB_PASS: password
+      MONGO_HOST: dbMongoDB
+      MONGO_PORT: 27017
+      RABBIT_HOST: rabbitMQ
+      RABBIT_PORT: 5672
+      RABBIT_USER: guest
+      RABBIT_PASS: guest
+      OAUTH_ID: 195540712286-bctckt883l7obr54vbsgr8bv7ft5ct78.apps.googleusercontent.com
+      OAUTH_SECRET: OAUTH_SECRET
+    ports:
+      - "8080:8080"
+
+  mysql:
+    image: 'mysql:latest'
+    container_name: mysqlDb
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+
+  mongodb:
+    image: 'mongo:latest'
+    container_name: dbMongoDB
+    volumes:
+      - db:/var/lib/mongodb
+    ports:
+      - "27017:27017"
+
+  rabbitMQ:
+    image: 'rabbitmq:3-management'
+    container_name: rabbitMQ
+    volumes:
+      - db:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes:
+  db:

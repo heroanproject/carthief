@@ -1,5 +1,5 @@
 FROM eclipse-temurin:19-jre-jammy
-COPY /target/classes /app
+COPY target/*.jar app.jar
 WORKDIR /app
-EXPOSE 3306
-ENTRYPOINT ["java", "-cp", "com.example.carthief.CarThiefApplication"]
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]
