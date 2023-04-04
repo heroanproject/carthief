@@ -1,7 +1,8 @@
 package com.example.carthief.controller;
 
-import com.example.carthief.entity.Car;
+import com.example.carthief.dto.CarDto;
 import com.example.carthief.entity.Dealer;
+import com.example.carthief.mapper.Mapper;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
 import org.springframework.data.repository.query.Param;
@@ -18,10 +19,12 @@ public class WebController {
 
     private final DealerRepository dealerRepository;
     private final CarRepository carRepository;
+    private final Mapper mapper;
 
-    public WebController(DealerRepository dealerRepository, CarRepository carRepository) {
+    public WebController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper) {
         this.dealerRepository = dealerRepository;
         this.carRepository = carRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping("/carthief")
@@ -38,8 +41,8 @@ public class WebController {
     }
 
     @PostMapping("/save")
-    String addCarToDealer(@ModelAttribute("dealerId") Long dealerId, @ModelAttribute Car car){
-        var savedCar = carRepository.save(car);
+    String addCarToDealer(@ModelAttribute("dealerId") Long dealerId, @ModelAttribute CarDto carDto){
+        var savedCar = carRepository.save(mapper.mapDtoToCar(carDto));
         var dealer = dealerRepository.findById(dealerId).orElseThrow();
         dealer.getCars().add(savedCar);
         dealerRepository.save(dealer);
