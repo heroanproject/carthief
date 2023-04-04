@@ -1,38 +1,59 @@
 version: '3.8'
+
 services:
   app:
-    restart: unless-stopped
-    build: .
+    build:
+      context: .
+    container_name: carthief
+    depends_on:
+      - mysql
+      - mongodb
+      - rabbitMQ
+    environment:
+      DB_URL: jdbc:mysql://mysqlDb:3306/demo
+      DB_USER: developer
+      DB_PASS: password
+      MONGO_HOST: dbMongoDB
+      MONGO_PORT: 27017
+      RABBIT_HOST: rabbitMQ
+      RABBIT_PORT: 5672
+      RABBIT_USER: guest
+      RABBIT_PASS: guest
+      OAUTH_ID: 195540712286-bctckt883l7obr54vbsgr8bv7ft5ct78.apps.googleusercontent.com
+      OAUTH_SECRET: OAUTH_SECRET
     ports:
       - "8080:8080"
-    environment:
-      - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqlserver:3306/demo
-      - SPRING_DATASOURCE_USERNAME=developer
-      - SPRING_DATASOURCE_PASSWORD=password
-    depends_on:
-      - mysqlserver
-      - rabbitmq
 
-  mysqlserver:
+  mysql:
     image: 'mysql:latest'
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_DATABASE= demo
-      - MYSQL_ROOT_PASSWORD=5350
-        - MYSQL_USER=developer
-        - MYSQL_PASSWORD=password
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    container_name: mysqlDb
     volumes:
       - db:/var/lib/mysql
-
-  rabbitmq:
-    image: 'rabbitmq:3-management'
+    environment:
+      MYSQL_DATABASE: demo
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: password
     ports:
-      - "5673:5672"
-      - "15673:15672"
+      - '3306:3306'
+
+  mongodb:
+    image: 'mongo:latest'
+    container_name: dbMongoDB
+    volumes:
+      - db:/var/lib/mongodb
+    ports:
+      - "27017:27017"
+
+  rabbitMQ:
+    image: 'rabbitmq:3-management'
+    container_name: rabbitMQ
+    volumes:
+      - db:/var/lib/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
 
 volumes:
   db:
-
