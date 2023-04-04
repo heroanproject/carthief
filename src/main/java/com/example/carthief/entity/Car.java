@@ -1,9 +1,7 @@
 package com.example.carthief.entity;
 
-import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -12,8 +10,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class Car {
 
     @Id
