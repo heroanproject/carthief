@@ -5,14 +5,16 @@ import com.example.carthief.entity.Dealer;
 import com.example.carthief.projection.DealerName;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/dealers")
+@RequestMapping("/api/dealers")
 public class DealerController {
 
     private final DealerRepository dealerRepo;
@@ -30,7 +32,8 @@ public class DealerController {
 
     @GetMapping("/{dealerId}")
     Dealer getDealer(@PathVariable Long dealerId){
-        return dealerRepo.findById(dealerId).orElseThrow();
+        return dealerRepo.findById(dealerId)
+                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/names")
