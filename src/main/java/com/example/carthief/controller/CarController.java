@@ -1,7 +1,6 @@
 package com.example.carthief.controller;
 
-import com.example.carthief.dto.CarDto;
-import com.example.carthief.mapper.Mapper;
+import com.example.carthief.entity.Car;
 import com.example.carthief.repository.CarRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,37 +11,34 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
-
     private final CarRepository carRepo;
-    private final Mapper mapper;
 
-    public CarController(CarRepository carRepository, Mapper mapper) {
+    public CarController (CarRepository carRepository) {
         carRepo = carRepository;
-        this.mapper = mapper;
     }
 
     @GetMapping("/{id}")
-    CarDto getACar(@PathVariable long id) {
-        return mapper.mapCarToDto(carRepo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+    Car getACar (@PathVariable long id) {
+        return carRepo.findById(id)
+                      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
-    List<CarDto> getCars() {
-        return mapper.mapCarToDto(carRepo.findAll());
+    List<Car> getCars () {
+        return carRepo.findAll();
     }
 
     @PostMapping
-    void addCar(@RequestBody CarDto carDto) {
-        String name = carDto.getName();
-        if (name == null || name.isEmpty())
-            throw new IllegalStateException();
-        carRepo.save(mapper.mapDtoToCar(carDto));
+    void addCar (@RequestBody Car car) {
+        String name = car.getName();
+        if (name == null || name.isEmpty()) throw new IllegalStateException();
+        carRepo.save(car);
     }
 
     @PutMapping("/{id}")
-    public CarDto updateCar(@PathVariable Long id, @RequestBody CarDto carDto) {
-        carDto.setId(id);
-        return mapper.mapCarToDto(carRepo.save(mapper.mapDtoToCar(carDto)));
+    public Car updateCar (@PathVariable Long id, @RequestBody Car car) {
+        car.setId(id);
+        return carRepo.save(car);
     }
 
     @DeleteMapping("/{id}")
