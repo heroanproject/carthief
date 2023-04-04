@@ -91,7 +91,6 @@ class CarControllerTest {
 
         var result = mockMvc.perform(get("/api/cars/1")).andExpect(status().isOk()).andReturn();
 
-
         Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
         Assertions.assertThat(result.getResponse().getContentAsString()).isEqualTo(expectedJson);
     }
