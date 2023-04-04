@@ -4,10 +4,10 @@ import com.example.carthief.service.Publisher;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("/api/messages")
 public class MessageController {
 
-        private final Publisher publisher;
+    private final Publisher publisher;
 
     public MessageController(Publisher publisher) {
         this.publisher = publisher;

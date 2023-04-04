@@ -1,38 +1,46 @@
 package com.example.carthief.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Person;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.PersonRepository;
-
-
+import com.example.carthief.security.SecurityConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PersonController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@WithMockUser(authorities = {"ADMIN"})
+@ContextConfiguration(classes = {SecurityConfig.class, PersonController.class})
 class PersonControllerTest {
 
     @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
+
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
 
     @MockBean
     private PersonRepository personRepository;
@@ -42,6 +50,13 @@ class PersonControllerTest {
     @MockBean
     private CarRepository carRepository;
 
+    @BeforeEach
+    public void setup(){
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Test
     void getPerson () throws Exception {
@@ -51,13 +66,13 @@ class PersonControllerTest {
 
         when(personRepository.findAll()).thenReturn(List.of(person));
 
-        mockMvc.perform(get("/persons")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/persons")).andExpect(status().isOk());
     }
 
     @Test
     void getPersonByIdNotExistsReturn404 () throws Exception {
 
-        mockMvc.perform(get("/persons"))
+        mockMvc.perform(get("/api/persons"))
                .andExpect(status().isOk())
                .andExpect(content()
                        .json("[]"));
@@ -87,7 +102,7 @@ class PersonControllerTest {
 
         controller.addNumber(personToAdd);
 
-        var result = mockMvc.perform(get("/persons/1")).andExpect(status().isOk())
+        var result = mockMvc.perform(get("/api/persons/1")).andExpect(status().isOk())
                             .andReturn();
 
       org.assertj.core.api.Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -105,7 +120,7 @@ class PersonControllerTest {
         personController.deleteOrg(id);
 
         when(personRepository.findById(id)).thenReturn(Optional.of(person));
-        mockMvc.perform(delete("/persons/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/api/persons/1")).andExpect(status().isOk());
     }
 
     @Test

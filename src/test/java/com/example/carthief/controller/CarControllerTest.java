@@ -2,43 +2,56 @@ package com.example.carthief.controller;
 
 
 import com.example.carthief.entity.Car;
-
 import com.example.carthief.repository.CarRepository;
-
-
+import com.example.carthief.security.SecurityConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
-
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CarController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@WithMockUser(authorities = {"ADMIN"})
+@ContextConfiguration(classes = {SecurityConfig.class, CarController.class})
 class CarControllerTest {
+
     @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
+
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
 
     @MockBean
     private CarRepository carRepository;
 
+    @BeforeEach
+    public void setup(){
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Test
     void testGetCars () throws Exception {
@@ -52,13 +65,13 @@ class CarControllerTest {
 
         when(carRepository.findAll()).thenReturn(List.of(car1));
 
-        mockMvc.perform(get("/cars")).andExpect(status().isOk());
+        mockMvc.perform(get("/api/cars")).andExpect(status().isOk());
 
     }
 
     @Test
     void getCarsByIdThatDoesNotExistsReturns404 () throws Exception {
-        mockMvc.perform(get("/cars/2")).andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/cars/2")).andExpect(status().isNotFound());
     }
 
     @Test
@@ -76,7 +89,7 @@ class CarControllerTest {
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1")).andExpect(status().isOk()).andReturn();
+        var result = mockMvc.perform(get("/api/cars/1")).andExpect(status().isOk()).andReturn();
 
 
         Assertions.assertThat(result.getResponse().getStatus()).isEqualTo(200);
@@ -96,7 +109,7 @@ class CarControllerTest {
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car1));
 
-        var result = mockMvc.perform(get("/cars/1"))
+        var result = mockMvc.perform(get("/api/cars/1"))
                             .andExpect(status().isOk())
                             .andExpect(ResponseBodyMatchers.responseBody().containsObjectAsJson(car1, Car.class))
                             .andReturn();
@@ -126,7 +139,7 @@ class CarControllerTest {
 
         String updatedCarJson = new ObjectMapper().writeValueAsString(updatedCar);
 
-        mockMvc.perform(put("/cars/{id}", car.getId()).contentType(MediaType.APPLICATION_JSON).content(updatedCarJson))
+        mockMvc.perform(put("/api/cars/{id}", car.getId()).contentType(MediaType.APPLICATION_JSON).content(updatedCarJson))
                .andExpect(status().isOk());
 
     }
@@ -142,7 +155,7 @@ class CarControllerTest {
 
         when(carRepository.findById(id)).thenReturn(Optional.of(car));
 
-        mockMvc.perform(delete("/cars/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/api/cars/1")).andExpect(status().isOk());
 
     }
 }

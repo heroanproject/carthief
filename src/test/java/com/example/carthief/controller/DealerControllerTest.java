@@ -3,15 +3,20 @@ package com.example.carthief.controller;
 import com.example.carthief.entity.Car;
 import com.example.carthief.entity.Dealer;
 import com.example.carthief.repository.DealerRepository;
+import com.example.carthief.security.SecurityConfig;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,22 +25,38 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = DealerController.class)
-@AutoConfigureMockMvc(addFilters = false)
+@WithMockUser(authorities = {"ADMIN"})
+@ContextConfiguration(classes = {SecurityConfig.class, DealerController.class})
 class DealerControllerTest {
 
     @Autowired
+    private WebApplicationContext context;
+
     private MockMvc mockMvc;
+
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
+
     @MockBean
     private DealerController dealerController;
 
     @MockBean
     private DealerRepository dealerRepository;
 
+    @BeforeEach
+    public void setup(){
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
 
     @Test
     void testGetDealer () throws Exception {
@@ -43,10 +64,9 @@ class DealerControllerTest {
         dealer.setId(1L);
         dealer.setName("Robert");
         dealer.setCars(null);
-
         when(dealerRepository.findAll()).thenReturn(List.of(dealer));
 
-        var result = mockMvc.perform(get("/dealers/1").accept(MediaType.APPLICATION_JSON))
+        var result = mockMvc.perform(get("/api/dealers/1").accept(MediaType.APPLICATION_JSON))
                             .andExpect(status().isOk())
                             .andReturn();
 
@@ -58,9 +78,9 @@ class DealerControllerTest {
     }
 
     @Test
-    void getDealersNotExistsReturn404 () throws Exception {
+    void getDealersNotExistsReturn200 () throws Exception {
 
-        mockMvc.perform(get("/dealers")).andExpect(status().isOk()).andExpect(content().json("[]"));
+        mockMvc.perform(get("/api/dealers")).andExpect(status().isOk()).andExpect(content().json("[]"));
     }
 
     @Test
@@ -73,7 +93,7 @@ class DealerControllerTest {
 
         when(dealerRepository.findById(id)).thenReturn(Optional.of(dealers));
 
-        mockMvc.perform(delete("/dealers/1")).andExpect(status().isOk());
+        mockMvc.perform(delete("/api/dealers/1")).andExpect(status().isOk());
 
     }
 
@@ -97,9 +117,4 @@ class DealerControllerTest {
         assertEquals(car.getId(), dealer.getId());
 
     }
-
-
 }
-
-
-
