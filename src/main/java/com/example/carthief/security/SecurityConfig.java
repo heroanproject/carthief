@@ -26,7 +26,6 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, API).hasAuthority(Role.ADMIN.getAuthority())
                 .requestMatchers(HttpMethod.PUT, API).hasAuthority(Role.ADMIN.getAuthority())
                 .requestMatchers(HttpMethod.GET, API).hasAnyAuthority(Role.USER.getAuthority(), Role.ADMIN.getAuthority())
-                .requestMatchers(HttpMethod.GET, API).hasAuthority(Role.ADMIN.getAuthority())
                 .anyRequest().denyAll()
                 .and()
                 .httpBasic()
