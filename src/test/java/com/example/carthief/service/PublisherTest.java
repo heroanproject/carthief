@@ -34,22 +34,18 @@ class PublisherTest {
     private Publisher publisher;
 
     @BeforeEach
-    public void setup() {
+    void setup () {
         MockitoAnnotations.initMocks(this);
         publisher = new Publisher(rabbitTemplate, objectMapper);
     }
 
     @Test
-    public void testMessageQueue2() {
+    void testMessageQueue2() {
         assertEquals("search", publisher.messageQueue().getName());
     }
 
     @Test
-    public void testMessageQueue() {
-        assertEquals("search", publisher.messageQueue().getName());
-    }
-    @Test
-    public void publishSearchQueue() throws Exception {
+    void publishSearchQueue() throws Exception {
 
         List<DealerDto> dealerList = Collections.singletonList(new DealerDto());
         String expectedJson = "[{\"name\":null,\"address\":null}]";
