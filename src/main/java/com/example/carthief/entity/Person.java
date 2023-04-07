@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
-import java.util.Set;
 
 
 @Getter
@@ -33,6 +32,6 @@ public class Person {
 
     @Override
     public int hashCode () {
-        return Objects.hash(id, name, car);
+        return 10;
     }
 }

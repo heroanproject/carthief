@@ -38,6 +38,6 @@ public class Dealer {
 
     @Override
     public int hashCode () {
-        return Objects.hash(id, name, cars);
+        return 10;
     }
 }

@@ -31,6 +31,6 @@ public class Car {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, brand, kilometers, year);
+        return 10;
     }
 }
