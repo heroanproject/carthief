@@ -5,6 +5,7 @@ import com.example.carthief.entity.Car;
 import com.example.carthief.mapper.Mapper;
 import com.example.carthief.repository.CarRepository;
 import com.example.carthief.repository.DealerRepository;
+import com.example.carthief.service.Publisher;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +21,13 @@ public class WebController {
     private final DealerRepository dealerRepository;
     private final CarRepository carRepository;
     private final Mapper mapper;
+    private final Publisher publisher;
 
-    public WebController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper) {
+    public WebController(DealerRepository dealerRepository, CarRepository carRepository, Mapper mapper, Publisher publisher) {
         this.dealerRepository = dealerRepository;
         this.carRepository = carRepository;
         this.mapper = mapper;
+        this.publisher = publisher;
     }
 
     @GetMapping("/carthief")
@@ -37,6 +40,7 @@ public class WebController {
     String searchByCarName(Model model, @Param("keyword") String keyword){
         List<DealerDto> list = mapper.mapDealerToDto(dealerRepository.findByCarsNameOrCarsBrand(keyword, keyword));
         model.addAttribute("listDealers", list);
+        publisher.publishSearchQueue(list);
         return "carThief";
     }
 
