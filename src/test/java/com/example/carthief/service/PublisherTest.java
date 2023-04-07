@@ -1,16 +1,25 @@
 package com.example.carthief.service;
 
+import com.example.carthief.dto.DealerDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.junit.jupiter.api.Assertions;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PublisherTest {
@@ -18,32 +27,48 @@ class PublisherTest {
     @Mock
     private RabbitTemplate rabbitTemplate;
 
+    @Mock
+    private ObjectMapper objectMapper;
+
     @InjectMocks
     private Publisher publisher;
 
-    @Test
-    public void testPublishMessage() {
-        String message = "Test message";
-        publisher.publishMessage(message);
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        publisher = new Publisher(rabbitTemplate, objectMapper);
+    }
 
-        verify(rabbitTemplate, times(1)).convertAndSend(anyString(), anyString());
+    @Test
+    public void testMessageQueue2() {
+        assertEquals("search", publisher.messageQueue().getName());
     }
 
     @Test
     public void testMessageQueue() {
-        assertEquals("message", publisher.messageQueue().getName());
+        assertEquals("search", publisher.messageQueue().getName());
     }
-
-    // Note: This test requires a running RabbitMQ server
     @Test
-    public void testContainer() throws InterruptedException {
-        String message = "Test message";
-        publisher.publishMessage(message);
+    public void publishSearchQueue() throws Exception {
 
-        Thread.sleep(3000); // Wait for the message to be processed
+        List<DealerDto> dealerList = Collections.singletonList(new DealerDto());
+        String expectedJson = "[{\"name\":null,\"address\":null}]";
 
-        // Verify that the message was processed
-        verify(rabbitTemplate, times(1)).convertAndSend(anyString(), anyString());
+        when(objectMapper.writeValueAsString(dealerList)).thenReturn(expectedJson);
+        when(rabbitTemplate.convertSendAndReceive(any(), any(Message.class)))
+                .thenReturn(new Message("response".getBytes(), new MessageProperties()));
+
+        publisher.publishSearchQueue(dealerList);
+
+        ArgumentCaptor<Message> messageCaptor = ArgumentCaptor.forClass(Message.class);
+        verify(rabbitTemplate).convertSendAndReceive(eq("search"), messageCaptor.capture());
+
+        Message actualMessage = messageCaptor.getValue();
+        Assertions.assertEquals(expectedJson, new String(actualMessage.getBody()));
+
     }
+
+
+
 }
 
